@@ -2,7 +2,6 @@ import './ImageGallery.scss';
 
 import { useEffect, useState } from 'react';
 
-import { Spinner } from '../../../shared';
 import type { ImageData } from '../../models';
 import { imageService } from '../../services';
 import { ImageSlider } from '../ImageSlider/ImageSlider';
@@ -36,17 +35,19 @@ export function ImageGallery() {
 
   return (
     <div className="gallery-page">
-      <header className="gallery-title">
+      <header className="gallery-header">
         <h1>Publitas Image Gallery</h1>
       </header>
       <main className="gallery-content">
-        {loading && <Spinner />}
-        {!loading && (
-          <div>
-            <ImageSlider images={images} />
-          </div>
-        )}
+        <div className="image-slider-container">
+          <ImageSlider images={images} loading={loading} />
+        </div>
       </main>
+      <footer className="gallery-footer">
+        <div className="image-slider-hint">
+          <p>Drag to change image</p>
+        </div>
+      </footer>
     </div>
   );
 }
