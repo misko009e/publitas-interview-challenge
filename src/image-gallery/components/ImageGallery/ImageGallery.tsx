@@ -43,7 +43,7 @@ export function ImageGallery() {
         {!loading && (
           <div>
             <p>Images loaded: {images.length}</p>
-            <ImageSlider />
+            <ImageSlider images={images} />
           </div>
         )}
       </main>
