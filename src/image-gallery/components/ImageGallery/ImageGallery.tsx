@@ -35,7 +35,7 @@ export function ImageGallery() {
   return (
     <div className="gallery-page">
       <header className="gallery-header">
-        <h1>Publitas Image Gallery</h1>
+        <h1>Publitas Frontend Code Challenge</h1>
       </header>
       <main className="gallery-content">
         <div className="image-slider-container">

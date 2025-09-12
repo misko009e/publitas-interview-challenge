@@ -3,13 +3,23 @@
 
 .image-slider {
   @include width-height($width: 100%, $height: 100%);
-  @include padding($all: 1rem);
   background-color: $light-gray-color;
   box-sizing: border-box;
 
   &.loading {
     @include flex(row, center, center);
     pointer-events: none;
+    user-select: none;
+  }
+
+  .content {
+    @include width-height($width: 100%, $height: 100%);
+    overflow: hidden;
+  }
+
+  .image-canvas {
+    @include width-height($width: 100%, $height: 100%);
+    display: block;
     user-select: none;
   }
 }
