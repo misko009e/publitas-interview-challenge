@@ -5,9 +5,25 @@ import type { ImageData } from '@image-gallery/models';
 import { imageService } from '@image-gallery/services';
 import { useEffect, useState } from 'react';
 
-// ImageGallery component that fetches and displays a collection of images.
-// The entire image gallery functionality might be its own reusable library,
-// but here we use it like so for simplicity
+/**
+ * ImageGallery - Main container component for the image gallery application
+ *
+ * This component serves as the "smart" container that handles data fetching and
+ * state management for the image gallery. It fetches image data from the service
+ * layer and passes it down to the ImageSlider component for rendering.
+ *
+ * Features:
+ * - Fetches image data from the image service
+ * - Manages loading state during data fetching
+ * - Provides complete page layout with header, content, and footer
+ * - Handles error states (currently logged to console)
+ * - Acts as the main entry point for the gallery functionality
+ *
+ * Architecture:
+ * This follows the container/presentational pattern where ImageGallery handles
+ * business logic and data fetching, while ImageSlider focuses purely on
+ * presentation and user interaction.
+ */
 export function ImageGallery() {
   const [images, setImages] = useState<ImageData[]>([]);
   const [loading, setLoading] = useState(true);
