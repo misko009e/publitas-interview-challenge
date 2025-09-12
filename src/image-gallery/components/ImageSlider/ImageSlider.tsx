@@ -1,7 +1,7 @@
 import './ImageSlider.scss';
 
-import { Spinner } from '../../../shared';
-import type { ImageData } from '../../models';
+import type { ImageData } from '@image-gallery/models';
+import { Spinner } from '@shared/components';
 
 interface ImageSliderProps {
   images: ImageData[];

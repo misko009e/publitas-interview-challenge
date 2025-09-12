@@ -1,4 +1,4 @@
-import type { ImageData } from '../models/ImageData';
+import type { ImageData } from '@image-gallery/models/ImageData';
 
 export const mockImages: ImageData[] = [
   {

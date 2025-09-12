@@ -1,10 +1,9 @@
 import './ImageGallery.scss';
 
+import { ImageSlider } from '@image-gallery/components/ImageSlider/ImageSlider';
+import type { ImageData } from '@image-gallery/models';
+import { imageService } from '@image-gallery/services';
 import { useEffect, useState } from 'react';
-
-import type { ImageData } from '../../models';
-import { imageService } from '../../services';
-import { ImageSlider } from '../ImageSlider/ImageSlider';
 
 // ImageGallery component that fetches and displays a collection of images.
 // The entire image gallery functionality might be its own reusable library,

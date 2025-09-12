@@ -1,5 +1,5 @@
-import { mockImages } from '../mocks';
-import type { ApiResponse, ImageData } from '../models';
+import { mockImages } from '@image-gallery/mocks';
+import type { ApiResponse, ImageData } from '@image-gallery/models';
 
 class ImageService {
   async getImages(): Promise<ApiResponse<ImageData>> {
