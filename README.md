@@ -1,2 +1,3 @@
 # publitas-interview-challenge
-A demo test app for publitas
+
+A FE demo test app for publitas
