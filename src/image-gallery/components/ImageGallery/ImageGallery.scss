@@ -1,53 +1,44 @@
+@use '../../../shared/styles/variables' as *;
+@use '../../../shared/styles/mixins' as *;
+
 .gallery-page {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 2rem;
-  min-height: 100vh;
-  gap: 0.5rem;
+  @include flex(column, center, center);
+  @include padding($all: $page-padding);
+  gap: $page-gap;
 
   .gallery-header {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    @include width-height($width: 100%);
+    @include flex(row, center, center);
 
     h1 {
-      font-size: 2.5rem;
-      font-weight: 400;
-      color: #1a73e8; /* Publitas blue */
-      margin: 0;
+      @include margin($all: 0);
+      @include font($size: 2.5rem, $weight: 400, $color: $blue-color);
     }
   }
 
   .gallery-content {
-    width: 100%;
+    @include width-height($width: 100%);
 
     .image-slider-container {
-      max-width: 800px;
-      margin: 0 auto;
-      height: 500px;
+      @include margin($left: auto, $right: auto);
+      @include width-height($height: $image-slider-container-height);
+      max-width: $image-slider-container-width;
     }
   }
 
   .gallery-footer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+    @include width-height($width: 100%);
+    @include flex(row, center, center);
 
     .image-slider-hint {
-      width: 100%;
-      max-width: 800px;
-      display: flex;
-      justify-content: flex-start;
+      @include flex(row, center, flex-start);
+      @include width-height($width: 100%);
+      max-width: $image-slider-container-width;
+      @include margin($left: auto, $right: auto);
 
       p {
-        margin: 0;
-        color: #666;
-        font-size: 0.875rem;
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
+        @include margin($all: 0);
+        @include font($size: 0.875rem, $color: $gray-color);
       }
     }
   }

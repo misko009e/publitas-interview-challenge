@@ -1,0 +1,74 @@
+// Shared SCSS mixins for the application
+@use 'variables' as *;
+
+// Flexbox mixins
+@mixin flex($direction: row, $align: center, $justify: center) {
+  display: flex;
+  flex-direction: $direction;
+  align-items: $align;
+  justify-content: $justify;
+}
+
+// Layout mixins
+@mixin width-height($width: null, $height: null) {
+  @if $width {
+    width: $width;
+  }
+  @if $height {
+    height: $height;
+  }
+}
+
+// Component mixins
+@mixin padding($top: null, $right: null, $bottom: null, $left: null, $all: null) {
+  @if $all {
+    padding: $all;
+  } @else {
+    @if $top {
+      padding-top: $top;
+    }
+    @if $right {
+      padding-right: $right;
+    }
+    @if $bottom {
+      padding-bottom: $bottom;
+    }
+    @if $left {
+      padding-left: $left;
+    }
+  }
+}
+
+@mixin margin($top: null, $right: null, $bottom: null, $left: null, $all: null) {
+  @if $all {
+    margin: $all;
+  } @else {
+    @if $top {
+      margin-top: $top;
+    }
+    @if $right {
+      margin-right: $right;
+    }
+    @if $bottom {
+      margin-bottom: $bottom;
+    }
+    @if $left {
+      margin-left: $left;
+    }
+  }
+}
+
+@mixin font($size: null, $weight: null, $color: null, $family: null) {
+  @if $size {
+    font-size: $size;
+  }
+  @if $weight {
+    font-weight: $weight;
+  }
+  @if $color {
+    color: $color;
+  }
+  @if $family {
+    font-family: $family;
+  }
+}
