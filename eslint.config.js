@@ -5,6 +5,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier';
 import prettierConfig from 'eslint-config-prettier';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { globalIgnores } from 'eslint/config';
 
 export default tseslint.config([
@@ -20,9 +21,12 @@ export default tseslint.config([
     ],
     plugins: {
       prettier: prettier,
+      'simple-import-sort': simpleImportSort,
     },
     rules: {
       'prettier/prettier': 'error',
+      'simple-import-sort/imports': 'error',
+      'simple-import-sort/exports': 'error',
     },
     languageOptions: {
       ecmaVersion: 2020,
