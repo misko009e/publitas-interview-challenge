@@ -2,6 +2,7 @@ import './ImageGallery.scss';
 
 import { useEffect, useState } from 'react';
 
+import { Spinner } from '../../../shared';
 import type { ImageData } from '../../models';
 import { imageService } from '../../services';
 import { ImageSlider } from '../ImageSlider/ImageSlider';
@@ -16,7 +17,7 @@ export function ImageGallery() {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        // In a real application, we could implement nice UX with loading spinners,
+        // In a real application, we could implement nice UX with classier loading spinners,
         // skeleton screens, or progress indicators instead of simple text
         setLoading(true);
         const fetchedImages = await imageService.getImages();
@@ -39,7 +40,7 @@ export function ImageGallery() {
         <h1>Publitas Image Gallery</h1>
       </header>
       <main className="gallery-content">
-        {loading && <p>Loading images...</p>}
+        {loading && <Spinner />}
         {!loading && (
           <div>
             <ImageSlider images={images} />
