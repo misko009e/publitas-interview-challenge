@@ -1,11 +1,12 @@
 import './App.scss';
 
-import ImageGallery from './components/ImageGallery';
+import { ImageGallery } from './image-gallery';
 
 function App() {
+  // Here we would implement routing (React Router, etc.)
+  // For now, we directly render the ImageGallery component
   return (
-    <div>
-      <h1>Publitas Frontend Code Challenge</h1>
+    <div className="page-container">
       <ImageGallery />
     </div>
   );
