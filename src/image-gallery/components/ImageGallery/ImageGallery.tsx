@@ -20,7 +20,7 @@ export function ImageGallery() {
         // skeleton screens, or progress indicators instead of simple text
         setLoading(true);
         const fetchedImages = await imageService.getImages();
-        setImages(fetchedImages);
+        setImages(fetchedImages.items);
       } catch (err) {
         // In a real application, error handling would typically be centralized
         // through error boundaries, global error services, or service-level handling
@@ -42,7 +42,6 @@ export function ImageGallery() {
         {loading && <p>Loading images...</p>}
         {!loading && (
           <div>
-            <p>Images loaded: {images.length}</p>
             <ImageSlider images={images} />
           </div>
         )}
