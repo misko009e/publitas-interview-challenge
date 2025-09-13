@@ -203,6 +203,11 @@ export function ImageSlider({ images, loading }: ImageSliderProps) {
       {loading ? (
         // Show loading spinner while images are being loaded
         <Spinner />
+      ) : images.length === 0 ? (
+        // Show "No images available" message when no images are available
+        <div className="no-images">
+          <p>No images available</p>
+        </div>
       ) : (
         <div className="content">
           {/* Canvas element for drawing images with drag interaction */}
