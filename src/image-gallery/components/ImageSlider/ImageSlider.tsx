@@ -1,6 +1,11 @@
 import './ImageSlider.scss';
 
 import type { ImageData } from '@image-gallery/models';
+import {
+  getImageDrawCoordinates,
+  getImageStripTotalWidth,
+  getScrollBoundaries,
+} from '@image-gallery/utils';
 import { Spinner } from '@shared/components';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -81,59 +86,12 @@ export function ImageSlider({ images, loading }: ImageSliderProps) {
     };
   }, [images]);
 
-  // Calculate the total width needed for the entire image strip
-  const calculateTotalWidth = useCallback(() => {
-    if (loadedImages.length === 0) return 0;
-
+  // Get the total width needed for the entire image strip
+  const getTotalWidth = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return 0;
-
-    // Each image occupies a full canvas-width cell
-    return loadedImages.length * canvas.width;
+    return getImageStripTotalWidth(loadedImages, canvas.width);
   }, [loadedImages]);
-
-  // Calculate scaling factor to fit image within canvas while preserving aspect ratio
-  const calculateImageScale = useCallback((img: HTMLImageElement, canvas: HTMLCanvasElement) => {
-    const widthScale = canvas.width / img.naturalWidth;
-    const heightScale = canvas.height / img.naturalHeight;
-    // Use smaller scale to ensure image fits completely within canvas
-    return Math.min(widthScale, heightScale);
-  }, []);
-
-  // Calculate the final scaled dimensions of an image
-  const calculateScaledDimensions = useCallback(
-    (img: HTMLImageElement, canvas: HTMLCanvasElement) => {
-      const scale = calculateImageScale(img, canvas);
-      return {
-        width: img.naturalWidth * scale,
-        height: img.naturalHeight * scale,
-      };
-    },
-    [calculateImageScale],
-  );
-
-  // Calculate where to position an image on the canvas
-  const calculateImagePosition = useCallback(
-    (
-      img: HTMLImageElement,
-      canvas: HTMLCanvasElement,
-      imageStripX: number,
-      scrollOffset: number,
-    ) => {
-      const scaledDimensions = calculateScaledDimensions(img, canvas);
-      // Calculate the start position of this image's cell on the canvas
-      const cellStartOnCanvasX = imageStripX - scrollOffset;
-
-      return {
-        // Center the image horizontally within its cell
-        drawX: cellStartOnCanvasX + (canvas.width - scaledDimensions.width) / 2,
-        // Center the image vertically within the canvas
-        drawY: (canvas.height - scaledDimensions.height) / 2,
-        ...scaledDimensions,
-      };
-    },
-    [calculateScaledDimensions],
-  );
 
   // Main rendering function that draws all images on the canvas
   const renderImages = useCallback(() => {
@@ -154,10 +112,9 @@ export function ImageSlider({ images, loading }: ImageSliderProps) {
     // Clear the canvas for fresh drawing
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Calculate scroll boundaries to prevent over-scrolling
-    const totalWidth = calculateTotalWidth();
-    const maxScrollOffset = Math.max(0, totalWidth - canvas.width);
-    const constrainedScrollOffset = Math.max(0, Math.min(maxScrollOffset, scrollOffset));
+    // Get scroll boundaries to prevent over-scrolling
+    const totalWidth = getTotalWidth();
+    const { constrainedScrollOffset } = getScrollBoundaries(totalWidth, canvas.width, scrollOffset);
 
     // Update scroll offset if it was constrained (prevents infinite re-renders)
     if (constrainedScrollOffset !== scrollOffset) {
@@ -171,27 +128,26 @@ export function ImageSlider({ images, loading }: ImageSliderProps) {
 
     // Draw each image centered in its allocated cell
     let imageStripX = 0;
-
     loadedImages.forEach((img) => {
-      const position = calculateImagePosition(img, canvas, imageStripX, constrainedScrollOffset);
+      const drawCoords = getImageDrawCoordinates(img, canvas, imageStripX, constrainedScrollOffset);
 
       // Draw the image at the calculated position and size
       ctx.drawImage(
-        img,
-        0, // Source x
-        0, // Source y
-        img.naturalWidth, // Source width
-        img.naturalHeight, // Source height
-        position.drawX, // Destination x
-        position.drawY, // Destination y
-        position.width, // Destination width
-        position.height, // Destination height
+        img, // The source image element
+        0, // Start reading from left edge of source image
+        0, // Start reading from top edge of source image
+        img.naturalWidth, // Read full width of source image
+        img.naturalHeight, // Read full height of source image
+        drawCoords.drawX, // Draw at this X position on canvas
+        drawCoords.drawY, // Draw at this Y position on canvas
+        drawCoords.width, // Scale to this width on canvas
+        drawCoords.height, // Scale to this height on canvas
       );
 
       // Move to the next image's cell position
       imageStripX += canvas.width;
     });
-  }, [loadedImages, scrollOffset, calculateTotalWidth, calculateImagePosition]);
+  }, [loadedImages, scrollOffset, getTotalWidth]);
 
   // Trigger re-render when dependencies change
   useEffect(() => {
