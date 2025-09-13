@@ -20,7 +20,7 @@ An image slider built with React and TypeScript that renders images in a single 
 
 ### Prerequisites
 
-- Node.js v22 or higher
+- Node.js v22.12+ (required for Vite build)
 - npm
 
 ### Installation
